@@ -2,7 +2,7 @@ package service.v1.test;
 
 import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.BeanFactory;
-import com.litespring.bean.DefaultBeanFactory;
+import com.litespring.bean.factory.support.DefaultBeanFactory;
 import com.litespring.testBean.PetStoreService;
 import org.junit.Test;
 import static org.junit.Assert.*;     //导入Assert类中的所有静态方法

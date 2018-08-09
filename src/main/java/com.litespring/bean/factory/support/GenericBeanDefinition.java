@@ -1,4 +1,6 @@
-package com.litespring.bean;
+package com.litespring.bean.factory.support;
+
+import com.litespring.bean.BeanDefinition;
 
 /**
  * 定义BeanDefinition类  每个类的定义中属性有他的id 名字 范围 还有各个构造方法。
