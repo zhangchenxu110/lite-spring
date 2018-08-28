@@ -2,6 +2,7 @@ package com.litespring.bean.factory.support;
 
 import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.BeanFactory;
+import com.litespring.bean.PropertyValue;
 import com.litespring.bean.factory.BeanDefinitionRegistry;
 import com.litespring.bean.factory.config.ConfigurableBeanFactory;
 import com.litespring.exception.BeanCreationException;
@@ -13,8 +14,13 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import javax.xml.transform.sax.SAXResult;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,7 +40,6 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     private ClassLoader beanClassLoader;
 
     public DefaultBeanFactory() {
-
     }
 
     public void registerBeanDefinition(String beanID, BeanDefinition bd) {
@@ -46,6 +51,13 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         return this.beanDefinitionMap.get(beanID);
     }
 
+    /**
+     * getBean 分两步
+     * 1、实例化bean 2、注入property
+     *
+     * @param beanID
+     * @return
+     */
     public Object getBean(String beanID) {
         BeanDefinition bd = this.getBeanDefinition(beanID);
         if (bd == null) {
@@ -64,6 +76,15 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
 
     private Object createBean(BeanDefinition bd) {
+        //创建实例
+        Object bean = instantiateBean(bd);
+        //设置属性
+        populateBean(bd, bean);
+        return bean;
+
+    }
+
+    private Object instantiateBean(BeanDefinition bd) {
         ClassLoader cl = this.getBeanClassLoader();
         String beanClassName = bd.getBeanClassName();
         try {
@@ -71,6 +92,45 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
             return clz.newInstance();
         } catch (Exception e) {
             throw new BeanCreationException("create bean for " + beanClassName + " failed", e);
+        }
+    }
+
+    /**
+     * 注入属性
+     * 1、当property是RuntimeBeanReference时，要用resolver转换。
+     * 2、当property是TypeStringValue时,用TypeConverter从String转换成需要的类型。
+     *
+     * @param bd
+     * @param bean
+     */
+    protected void populateBean(BeanDefinition bd, Object bean) {
+        List<PropertyValue> pvs = bd.getPropertyValues();
+        if (pvs == null || pvs.isEmpty()) {
+            return;
+        }
+        BeanDefinitionValueResolver valueResolver = new BeanDefinitionValueResolver(this);
+        SimpleTypeConverter converter = new SimpleTypeConverter();
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
+            PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
+
+            for (PropertyValue pv : pvs) {
+                String propertyName = pv.getName();
+                Object originalValue = pv.getValue();
+                Object resolvedValue = valueResolver.resolveValueIfNecessary(originalValue);
+
+                for (PropertyDescriptor pd : pds) {
+                    if (pd.getName().equals(propertyName)) {
+                        Object convertedValue = converter.convertIfNecessary(resolvedValue, pd.getPropertyType());
+                        pd.getWriteMethod().invoke(bean, convertedValue);
+                        break;
+                    }
+                }
+
+
+            }
+        } catch (Exception ex) {
+            throw new BeanCreationException("Failed to obtain BeanInfo for class [" + bd.getBeanClassName() + "]", ex);
         }
     }
 

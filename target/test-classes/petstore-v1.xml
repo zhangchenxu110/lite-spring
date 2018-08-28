@@ -5,7 +5,7 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="petStore"
-          class="com.litespring.testBean.PetStoreService" >
+          class="testBean.PetStoreService" >
     </bean>
 </beans>
 

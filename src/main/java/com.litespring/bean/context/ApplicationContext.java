@@ -1,5 +1,7 @@
 package com.litespring.bean.context;
 
+import com.litespring.bean.factory.config.ConfigurableBeanFactory;
+
 /**
  * applicationContext继承BeanFactory
  * 1、持有DefaultBeanFactory
@@ -9,6 +11,6 @@ package com.litespring.bean.context;
  * @author 张晨旭
  * @DATE 2018/8/8
  */
-public interface ApplicationContext {
+public interface ApplicationContext extends ConfigurableBeanFactory {
 
 }
