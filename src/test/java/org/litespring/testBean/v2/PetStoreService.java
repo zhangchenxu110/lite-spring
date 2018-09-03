@@ -1,8 +1,8 @@
 package org.litespring.testBean.v2;
 
 
-import org.litespring.testBean.dao.ItemDao;
-import org.litespring.testBean.dao.AccountDao;
+import org.litespring.testBean.v2.dao.ItemDao;
+import org.litespring.testBean.v2.dao.AccountDao;
 
 public class PetStoreService {
     private AccountDao accountDao;

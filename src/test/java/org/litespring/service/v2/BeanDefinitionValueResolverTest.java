@@ -8,7 +8,7 @@ import com.litespring.bean.factory.support.DefaultBeanFactory;
 import com.litespring.bean.factory.xml.XmlBeanDefinitionReader;
 import org.junit.Test;
 import org.junit.Assert;
-import org.litespring.testBean.dao.AccountDao;
+import org.litespring.testBean.v2.dao.AccountDao;
 
 
 /**

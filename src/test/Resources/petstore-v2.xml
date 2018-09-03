@@ -14,10 +14,10 @@
 
     </bean>
 
-    <bean id="accountDao" class="org.litespring.testBean.dao.AccountDao">
+    <bean id="accountDao" class="org.litespring.testBean.v2.dao.AccountDao">
     </bean>
 
-    <bean id="itemDao" class="org.litespring.testBean.dao.ItemDao">
+    <bean id="itemDao" class="org.litespring.testBean.v2.dao.ItemDao">
     </bean>
 
 </beans>

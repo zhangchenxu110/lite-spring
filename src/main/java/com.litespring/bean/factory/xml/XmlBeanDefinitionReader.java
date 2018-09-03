@@ -1,6 +1,7 @@
 package com.litespring.bean.factory.xml;
 
 import com.litespring.bean.BeanDefinition;
+import com.litespring.bean.ConstructorArgument;
 import com.litespring.bean.PropertyValue;
 import com.litespring.bean.core.io.Resource;
 import com.litespring.bean.factory.config.RuntimeBeanReference;
@@ -40,6 +41,10 @@ public class XmlBeanDefinitionReader {
 
     public static final String NAME_ATTRIBUTE = "name";
 
+    public static final String CONSTRUCTOR_ARG_ELEMENT = "constructor-arg";
+
+    public static final String TYPE_ATTRIBUTE = "type";
+
     BeanDefinitionRegistry registry;
 
     protected final Log logger = LogFactory.getLog(getClass());
@@ -70,6 +75,9 @@ public class XmlBeanDefinitionReader {
                 if (ele.attribute(SCOPE_ATTRIBUTE) != null) {
                     bd.setScope(ele.attributeValue(SCOPE_ATTRIBUTE));
                 }
+                //解析constructor-Arg
+                parseConstructorArgElements(ele, bd);
+                //解析property
                 parsePropertyElement(ele, bd);
                 this.registry.registerBeanDefinition(id, bd);
             }
@@ -85,6 +93,36 @@ public class XmlBeanDefinitionReader {
             }
         }
 
+    }
+
+    /**
+     * 对每个bean标签解析里面的constructor-arg
+     *
+     * @param beanEle
+     * @param bd
+     */
+    public void parseConstructorArgElements(Element beanEle, BeanDefinition bd) {
+        Iterator iter = beanEle.elementIterator(CONSTRUCTOR_ARG_ELEMENT);
+        //解析每一个constructor-arg
+        while (iter.hasNext()) {
+            Element ele = (Element) iter.next();
+            parseConstructorArgElement(ele, bd);
+        }
+    }
+
+    public void parseConstructorArgElement(Element ele, BeanDefinition bd) {
+        String typeAttr = ele.attributeValue(TYPE_ATTRIBUTE);
+        String nameAttr = ele.attributeValue(NAME_ATTRIBUTE);
+        Object value = parsePropertyValue(ele, null);
+        ConstructorArgument.ValueHolder valueHolder = new ConstructorArgument.ValueHolder(value);
+        if (StringUtils.hasLength(typeAttr)) {
+            valueHolder.setType(typeAttr);
+        }
+        if (StringUtils.hasLength(nameAttr)) {
+            valueHolder.setName(nameAttr);
+        }
+        //在这个BeanDefinition中增加一个构造参数
+        bd.getConstructorArgument().addArgumentValue(valueHolder);
     }
 
     /**
@@ -105,7 +143,6 @@ public class XmlBeanDefinitionReader {
             //返回RuntimeBeanReference或TypeStringValue
             Object val = parsePropertyValue(propElem, propertyName);
             PropertyValue pv = new PropertyValue(propertyName, val);
-
             bd.getPropertyValues().add(pv);
         }
 

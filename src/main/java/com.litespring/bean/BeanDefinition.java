@@ -23,4 +23,9 @@ public interface BeanDefinition {
 
     List<PropertyValue> getPropertyValues(); //属性列表
 
+    ConstructorArgument getConstructorArgument();//构造参数
+
+    String getID();
+
+    boolean hasConstructorArgumentValues();//返回这个Bean是否有构造参数
 }

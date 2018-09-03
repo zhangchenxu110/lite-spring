@@ -3,8 +3,8 @@ package org.litespring.service.v2;
 import com.litespring.bean.context.ApplicationContext;
 import com.litespring.bean.context.support.ClassPathXmlApplicationContext;
 import org.junit.Test;
-import org.litespring.testBean.dao.AccountDao;
-import org.litespring.testBean.dao.ItemDao;
+import org.litespring.testBean.v2.dao.AccountDao;
+import org.litespring.testBean.v2.dao.ItemDao;
 import org.litespring.testBean.v2.PetStoreService;
 
 import static org.junit.Assert.*;

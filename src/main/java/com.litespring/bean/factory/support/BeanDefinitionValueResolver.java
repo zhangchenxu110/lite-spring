@@ -1,5 +1,6 @@
 package com.litespring.bean.factory.support;
 
+import com.litespring.bean.BeanFactory;
 import com.litespring.bean.factory.config.RuntimeBeanReference;
 import com.litespring.bean.factory.config.TypedStringValue;
 
@@ -9,9 +10,9 @@ import com.litespring.bean.factory.config.TypedStringValue;
  */
 public class BeanDefinitionValueResolver {
     //依赖BeanFactory
-    private final DefaultBeanFactory beanFactory;
+    private final BeanFactory beanFactory;
 
-    public BeanDefinitionValueResolver(DefaultBeanFactory beanFactory) {
+    public BeanDefinitionValueResolver(BeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
 
