@@ -1,4 +1,4 @@
-package com.litespring.bean;
+package com.litespring.bean.factory;
 
 /**
  * BeanFactory只拥有getBean的功能

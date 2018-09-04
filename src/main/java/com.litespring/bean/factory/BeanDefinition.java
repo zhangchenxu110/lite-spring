@@ -1,4 +1,7 @@
-package com.litespring.bean;
+package com.litespring.bean.factory;
+
+import com.litespring.bean.ConstructorArgument;
+import com.litespring.bean.PropertyValue;
 
 import java.util.List;
 

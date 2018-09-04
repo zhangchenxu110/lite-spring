@@ -1,6 +1,6 @@
 package com.litespring.bean.factory.config;
 
-import com.litespring.bean.BeanFactory;
+import com.litespring.bean.factory.BeanFactory;
 
 /**
  * 拓展BeanFactory 增加set get classLoader的功能

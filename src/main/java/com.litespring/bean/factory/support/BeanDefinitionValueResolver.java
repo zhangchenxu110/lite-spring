@@ -1,6 +1,6 @@
 package com.litespring.bean.factory.support;
 
-import com.litespring.bean.BeanFactory;
+import com.litespring.bean.factory.BeanFactory;
 import com.litespring.bean.factory.config.RuntimeBeanReference;
 import com.litespring.bean.factory.config.TypedStringValue;
 

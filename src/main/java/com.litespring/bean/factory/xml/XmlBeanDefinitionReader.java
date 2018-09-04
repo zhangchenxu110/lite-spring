@@ -1,6 +1,6 @@
 package com.litespring.bean.factory.xml;
 
-import com.litespring.bean.BeanDefinition;
+import com.litespring.bean.factory.BeanDefinition;
 import com.litespring.bean.ConstructorArgument;
 import com.litespring.bean.PropertyValue;
 import com.litespring.bean.core.io.Resource;
@@ -8,6 +8,7 @@ import com.litespring.bean.factory.config.RuntimeBeanReference;
 import com.litespring.bean.factory.config.TypedStringValue;
 import com.litespring.bean.factory.support.GenericBeanDefinition;
 import com.litespring.bean.factory.BeanDefinitionRegistry;
+import com.litespring.context.annotation.ClassPathBeanDefinitionScanner;
 import com.litespring.exception.BeanDefinitionStoreException;
 import com.litespring.util.StringUtils;
 import org.apache.commons.logging.Log;
@@ -45,6 +46,12 @@ public class XmlBeanDefinitionReader {
 
     public static final String TYPE_ATTRIBUTE = "type";
 
+    public static final String BEANS_NAMESPACE_URI = "http://www.springframework.org/schema/beans";
+
+    public static final String CONTEXT_NAMESPACE_URI = "http://www.springframework.org/schema/context";
+
+    private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
+
     BeanDefinitionRegistry registry;
 
     protected final Log logger = LogFactory.getLog(getClass());
@@ -68,18 +75,13 @@ public class XmlBeanDefinitionReader {
             Element root = doc.getRootElement(); //<beans>
             Iterator<Element> iter = root.elementIterator();
             while (iter.hasNext()) {
-                Element ele = (Element) iter.next();
-                String id = ele.attributeValue(ID_ATTRIBUTE);
-                String beanClassName = ele.attributeValue(CLASS_ATTRIBUTE);
-                BeanDefinition bd = new GenericBeanDefinition(id, beanClassName);
-                if (ele.attribute(SCOPE_ATTRIBUTE) != null) {
-                    bd.setScope(ele.attributeValue(SCOPE_ATTRIBUTE));
+                Element ele = iter.next();
+                String namespaceUri = ele.getNamespaceURI();
+                if (this.isDefaultNamespace(namespaceUri)) {//普通的bean
+                    parseDefaultElement(ele);
+                } else if (this.isContextNamespace(namespaceUri)) {//例如<context:component-scan>
+                    parseComponentElement(ele);
                 }
-                //解析constructor-Arg
-                parseConstructorArgElements(ele, bd);
-                //解析property
-                parsePropertyElement(ele, bd);
-                this.registry.registerBeanDefinition(id, bd);
             }
         } catch (Exception e) {
             throw new BeanDefinitionStoreException("IOException parsing XML document from " + resource.getDescription(), e);
@@ -93,6 +95,47 @@ public class XmlBeanDefinitionReader {
             }
         }
 
+    }
+
+    public boolean isDefaultNamespace(String namespaceUri) {
+        return (!StringUtils.hasLength(namespaceUri) || BEANS_NAMESPACE_URI.equals(namespaceUri));
+    }
+
+    public boolean isContextNamespace(String namespaceUri) {
+        return (!StringUtils.hasLength(namespaceUri) || CONTEXT_NAMESPACE_URI.equals(namespaceUri));
+    }
+
+
+    /**
+     * 解析<context>包路径
+     *
+     * @param ele
+     */
+    private void parseComponentElement(Element ele) {
+        String basePackages = ele.attributeValue(BASE_PACKAGE_ATTRIBUTE);
+        ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(registry);
+        scanner.doScan(basePackages);
+
+    }
+
+    /**
+     * 解析普通的bean标签
+     *
+     * @param ele
+     */
+    private void parseDefaultElement(Element ele) {
+        String id = ele.attributeValue(ID_ATTRIBUTE);
+        String beanClassName = ele.attributeValue(CLASS_ATTRIBUTE);
+        BeanDefinition bd = new GenericBeanDefinition(id, beanClassName);
+        if (ele.attribute(SCOPE_ATTRIBUTE) != null) {
+            bd.setScope(ele.attributeValue(SCOPE_ATTRIBUTE));
+        }
+
+        //解析constructor-Arg
+        parseConstructorArgElements(ele, bd);
+        //解析property
+        parsePropertyElement(ele, bd);
+        this.registry.registerBeanDefinition(id, bd);
     }
 
     /**

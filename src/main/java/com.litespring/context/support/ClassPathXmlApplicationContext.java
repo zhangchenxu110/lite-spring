@@ -1,4 +1,4 @@
-package com.litespring.bean.context.support;
+package com.litespring.context.support;
 
 import com.litespring.bean.core.io.ClassPathResource;
 import com.litespring.bean.core.io.Resource;

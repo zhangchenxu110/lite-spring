@@ -1,25 +1,15 @@
 package com.litespring.bean.factory.support;
 
-import com.litespring.bean.BeanDefinition;
-import com.litespring.bean.BeanFactory;
+import com.litespring.bean.factory.BeanDefinition;
 import com.litespring.bean.PropertyValue;
 import com.litespring.bean.factory.BeanDefinitionRegistry;
 import com.litespring.bean.factory.config.ConfigurableBeanFactory;
 import com.litespring.exception.BeanCreationException;
-import com.litespring.exception.BeanDefinitionStoreException;
 import com.litespring.util.ClassUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 
-import javax.xml.transform.sax.SAXResult;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.InputStream;
-import java.lang.reflect.Constructor;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,7 +1,5 @@
 package com.litespring.bean.factory;
 
-import com.litespring.bean.BeanDefinition;
-
 /**
  * 有向map中注册Bean的职责
  *

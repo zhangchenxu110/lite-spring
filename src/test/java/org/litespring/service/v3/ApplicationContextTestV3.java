@@ -1,7 +1,7 @@
 package org.litespring.service.v3;
 
-import com.litespring.bean.context.ApplicationContext;
-import com.litespring.bean.context.support.ClassPathXmlApplicationContext;
+import com.litespring.context.ApplicationContext;
+import com.litespring.context.support.ClassPathXmlApplicationContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.litespring.testBean.v3.PetStoreService;
