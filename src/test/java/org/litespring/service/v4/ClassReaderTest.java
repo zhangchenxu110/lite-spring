@@ -1,9 +1,8 @@
 package org.litespring.service.v4;
 
-import com.litespring.bean.core.io.ClassPathResource;
-import com.litespring.bean.core.io.Resource;
-import com.litespring.bean.core.io.support.PackageResourceLoader;
-import com.litespring.bean.core.type.classreading.ClassMetadataReadingVisitor;
+import com.litespring.core.io.Resource;
+import com.litespring.core.io.support.PackageResourceLoader;
+import com.litespring.core.type.classreading.ClassMetadataReadingVisitor;
 import jdk.internal.org.objectweb.asm.ClassReader;
 import org.junit.Assert;
 import org.junit.Test;

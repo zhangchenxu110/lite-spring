@@ -1,6 +1,6 @@
 package com.litespring.bean.factory.annotation;
 
-import com.litespring.bean.core.type.AnnotationMetadata;
+import com.litespring.core.type.AnnotationMetadata;
 
 /**
  * 拓展了metadata的BeanDefinition

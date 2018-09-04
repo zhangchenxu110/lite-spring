@@ -1,9 +1,9 @@
 package com.litespring.context.annotation;
 
-import com.litespring.bean.core.annotation.AnnotationAttributes;
-import com.litespring.bean.core.type.AnnotationMetadata;
-import com.litespring.bean.factory.BeanDefinition;
-import com.litespring.bean.factory.BeanDefinitionRegistry;
+import com.litespring.core.annotation.AnnotationAttributes;
+import com.litespring.core.type.AnnotationMetadata;
+import com.litespring.bean.BeanDefinition;
+import com.litespring.bean.BeanDefinitionRegistry;
 import com.litespring.bean.factory.annotation.AnnotatedBeanDefinition;
 import com.litespring.bean.factory.support.BeanNameGenerator;
 import com.litespring.util.ClassUtils;

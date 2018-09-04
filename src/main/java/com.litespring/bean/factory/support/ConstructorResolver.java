@@ -3,10 +3,10 @@ package com.litespring.bean.factory.support;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-import com.litespring.bean.factory.BeanDefinition;
+import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.ConstructorArgument;
 import com.litespring.bean.factory.config.ConfigurableBeanFactory;
-import com.litespring.exception.BeanCreationException;
+import com.litespring.bean.factory.BeanCreationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

@@ -1,4 +1,4 @@
-package com.litespring.exception;
+package com.litespring.bean;
 
 /**
  * 运行时异常  不用抛出

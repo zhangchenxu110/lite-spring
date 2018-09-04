@@ -1,8 +1,8 @@
 package org.litespring.service.v2;
 
-import com.litespring.bean.factory.TypeConverter;
+import com.litespring.bean.TypeConverter;
 import com.litespring.bean.factory.support.SimpleTypeConverter;
-import com.litespring.exception.TypeMismatchException;
+import com.litespring.bean.TypeMismatchException;
 import org.junit.Assert;
 import org.junit.Test;
 

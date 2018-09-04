@@ -1,9 +1,9 @@
 package org.litespring.service.v3;
 
-import com.litespring.bean.factory.BeanDefinition;
+import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.ConstructorArgument;
-import com.litespring.bean.core.io.ClassPathResource;
-import com.litespring.bean.core.io.Resource;
+import com.litespring.core.io.ClassPathResource;
+import com.litespring.core.io.Resource;
 import com.litespring.bean.factory.config.RuntimeBeanReference;
 import com.litespring.bean.factory.config.TypedStringValue;
 import com.litespring.bean.factory.support.DefaultBeanFactory;

@@ -1,6 +1,6 @@
 package com.litespring.bean.factory.support;
 
-import com.litespring.bean.factory.BeanDefinition;
+import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.ConstructorArgument;
 import com.litespring.bean.PropertyValue;
 

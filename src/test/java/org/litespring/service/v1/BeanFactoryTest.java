@@ -1,10 +1,10 @@
 package org.litespring.service.v1;
 
-import com.litespring.bean.factory.BeanDefinition;
-import com.litespring.bean.core.io.ClassPathResource;
+import com.litespring.bean.BeanDefinition;
+import com.litespring.core.io.ClassPathResource;
 import com.litespring.bean.factory.support.DefaultBeanFactory;
 import com.litespring.bean.factory.xml.XmlBeanDefinitionReader;
-import com.litespring.exception.BeanDefinitionStoreException;
+import com.litespring.bean.factory.BeanDefinitionStoreException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

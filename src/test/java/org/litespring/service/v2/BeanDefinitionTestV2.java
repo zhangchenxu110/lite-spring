@@ -2,9 +2,9 @@ package org.litespring.service.v2;
 
 import java.util.List;
 
-import com.litespring.bean.factory.BeanDefinition;
+import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.PropertyValue;
-import com.litespring.bean.core.io.ClassPathResource;
+import com.litespring.core.io.ClassPathResource;
 import com.litespring.bean.factory.config.RuntimeBeanReference;
 import com.litespring.bean.factory.support.DefaultBeanFactory;
 import com.litespring.bean.factory.xml.XmlBeanDefinitionReader;

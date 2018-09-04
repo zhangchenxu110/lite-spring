@@ -1,10 +1,10 @@
 package com.litespring.bean.factory.support;
 
-import com.litespring.bean.factory.BeanDefinition;
+import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.PropertyValue;
-import com.litespring.bean.factory.BeanDefinitionRegistry;
+import com.litespring.bean.BeanDefinitionRegistry;
 import com.litespring.bean.factory.config.ConfigurableBeanFactory;
-import com.litespring.exception.BeanCreationException;
+import com.litespring.bean.factory.BeanCreationException;
 import com.litespring.util.ClassUtils;
 
 import java.beans.BeanInfo;

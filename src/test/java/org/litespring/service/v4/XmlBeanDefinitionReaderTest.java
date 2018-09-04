@@ -1,10 +1,10 @@
 package org.litespring.service.v4;
 
-import com.litespring.bean.core.annotation.AnnotationAttributes;
-import com.litespring.bean.core.io.ClassPathResource;
-import com.litespring.bean.core.io.Resource;
-import com.litespring.bean.core.type.AnnotationMetadata;
-import com.litespring.bean.factory.BeanDefinition;
+import com.litespring.core.annotation.AnnotationAttributes;
+import com.litespring.core.io.ClassPathResource;
+import com.litespring.core.io.Resource;
+import com.litespring.core.type.AnnotationMetadata;
+import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.factory.support.DefaultBeanFactory;
 import com.litespring.bean.factory.xml.XmlBeanDefinitionReader;
 import com.litespring.context.annotation.ScannedGenericBeanDefinition;

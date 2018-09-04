@@ -1,4 +1,4 @@
-package com.litespring.bean.factory;
+package com.litespring.bean;
 
 import com.litespring.bean.ConstructorArgument;
 import com.litespring.bean.PropertyValue;

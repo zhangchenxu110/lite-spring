@@ -1,9 +1,9 @@
 package com.litespring.bean.factory.support;
 
-import com.litespring.bean.factory.TypeConverter;
+import com.litespring.bean.TypeConverter;
 import com.litespring.bean.factory.propertyeditors.CustomBooleanEditor;
 import com.litespring.bean.factory.propertyeditors.CustomNumberEditor;
-import com.litespring.exception.TypeMismatchException;
+import com.litespring.bean.TypeMismatchException;
 import com.litespring.util.ClassUtils;
 
 import java.beans.PropertyEditor;

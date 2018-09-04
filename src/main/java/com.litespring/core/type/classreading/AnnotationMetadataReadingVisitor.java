@@ -1,7 +1,7 @@
-package com.litespring.bean.core.type.classreading;
+package com.litespring.core.type.classreading;
 
-import com.litespring.bean.core.annotation.AnnotationAttributes;
-import com.litespring.bean.core.type.AnnotationMetadata;
+import com.litespring.core.annotation.AnnotationAttributes;
+import com.litespring.core.type.AnnotationMetadata;
 import jdk.internal.org.objectweb.asm.AnnotationVisitor;
 import jdk.internal.org.objectweb.asm.Type;
 

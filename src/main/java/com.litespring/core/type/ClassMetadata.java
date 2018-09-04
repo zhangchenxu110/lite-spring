@@ -1,4 +1,4 @@
-package com.litespring.bean.core.type;
+package com.litespring.core.type;
 
 /**
  * @author 张晨旭

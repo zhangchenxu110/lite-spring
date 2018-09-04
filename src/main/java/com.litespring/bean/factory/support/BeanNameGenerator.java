@@ -1,7 +1,7 @@
 package com.litespring.bean.factory.support;
 
-import com.litespring.bean.factory.BeanDefinition;
-import com.litespring.bean.factory.BeanDefinitionRegistry;
+import com.litespring.bean.BeanDefinition;
+import com.litespring.bean.BeanDefinitionRegistry;
 
 /**
  * @author 张晨旭

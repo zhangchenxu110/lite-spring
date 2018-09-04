@@ -1,13 +1,13 @@
 package com.litespring.context.annotation;
 
-import com.litespring.bean.core.io.Resource;
-import com.litespring.bean.core.io.support.PackageResourceLoader;
-import com.litespring.bean.core.type.MetadataReader;
-import com.litespring.bean.core.type.classreading.SimpleMetadataReader;
-import com.litespring.bean.factory.BeanDefinition;
-import com.litespring.bean.factory.BeanDefinitionRegistry;
+import com.litespring.core.io.Resource;
+import com.litespring.core.io.support.PackageResourceLoader;
+import com.litespring.core.type.MetadataReader;
+import com.litespring.core.type.classreading.SimpleMetadataReader;
+import com.litespring.bean.BeanDefinition;
+import com.litespring.bean.BeanDefinitionRegistry;
 import com.litespring.bean.factory.support.BeanNameGenerator;
-import com.litespring.exception.BeanDefinitionStoreException;
+import com.litespring.bean.factory.BeanDefinitionStoreException;
 import com.litespring.stereotype.Component;
 import com.litespring.util.StringUtils;
 import org.apache.commons.logging.Log;

@@ -1,6 +1,4 @@
-package com.litespring.bean.factory;
-
-import com.litespring.exception.TypeMismatchException;
+package com.litespring.bean;
 
 /**
  * @author 张晨旭

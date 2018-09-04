@@ -1,7 +1,7 @@
 package org.litespring.service.v4;
 
-import com.litespring.bean.core.io.Resource;
-import com.litespring.bean.core.io.support.PackageResourceLoader;
+import com.litespring.core.io.Resource;
+import com.litespring.core.io.support.PackageResourceLoader;
 import org.junit.Assert;
 import org.junit.Test;
 

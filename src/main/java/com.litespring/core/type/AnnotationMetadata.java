@@ -1,6 +1,6 @@
-package com.litespring.bean.core.type;
+package com.litespring.core.type;
 
-import com.litespring.bean.core.annotation.AnnotationAttributes;
+import com.litespring.core.annotation.AnnotationAttributes;
 
 import java.util.Set;
 

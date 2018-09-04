@@ -1,4 +1,4 @@
-package com.litespring.bean.core.io;
+package com.litespring.core.io;
 
 import java.io.IOException;
 import java.io.InputStream;

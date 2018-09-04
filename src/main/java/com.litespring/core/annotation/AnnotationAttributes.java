@@ -1,4 +1,4 @@
-package com.litespring.bean.core.annotation;
+package com.litespring.core.annotation;
 
 import com.litespring.util.Assert;
 

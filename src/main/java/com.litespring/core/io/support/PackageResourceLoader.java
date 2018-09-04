@@ -1,7 +1,7 @@
-package com.litespring.bean.core.io.support;
+package com.litespring.core.io.support;
 
-import com.litespring.bean.core.io.FileSystemResource;
-import com.litespring.bean.core.io.Resource;
+import com.litespring.core.io.FileSystemResource;
+import com.litespring.core.io.Resource;
 import com.litespring.util.Assert;
 import com.litespring.util.ClassUtils;
 import org.apache.commons.logging.Log;

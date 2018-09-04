@@ -1,9 +1,9 @@
-package com.litespring.bean.core.type.classreading;
+package com.litespring.core.type.classreading;
 
-import com.litespring.bean.core.io.Resource;
-import com.litespring.bean.core.type.AnnotationMetadata;
-import com.litespring.bean.core.type.ClassMetadata;
-import com.litespring.bean.core.type.MetadataReader;
+import com.litespring.core.io.Resource;
+import com.litespring.core.type.AnnotationMetadata;
+import com.litespring.core.type.ClassMetadata;
+import com.litespring.core.type.MetadataReader;
 import jdk.internal.org.objectweb.asm.ClassReader;
 
 import java.io.BufferedInputStream;

@@ -1,6 +1,6 @@
-package com.litespring.bean.core.type;
+package com.litespring.core.type;
 
-import com.litespring.bean.core.io.Resource;
+import com.litespring.core.io.Resource;
 
 /**
  * 封装了ASM解析metadata的过程 对外提供获取类和注解的metadata的方法

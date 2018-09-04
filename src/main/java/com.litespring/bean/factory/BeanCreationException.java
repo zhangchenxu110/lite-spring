@@ -1,4 +1,6 @@
-package com.litespring.exception;
+package com.litespring.bean.factory;
+
+import com.litespring.bean.BeansException;
 
 /**
  * Bean create 时的异常

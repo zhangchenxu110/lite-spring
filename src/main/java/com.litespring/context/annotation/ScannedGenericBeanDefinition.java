@@ -1,6 +1,6 @@
 package com.litespring.context.annotation;
 
-import com.litespring.bean.core.type.AnnotationMetadata;
+import com.litespring.core.type.AnnotationMetadata;
 import com.litespring.bean.factory.annotation.AnnotatedBeanDefinition;
 import com.litespring.bean.factory.support.GenericBeanDefinition;
 

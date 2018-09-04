@@ -1,6 +1,6 @@
-package com.litespring.bean.core.type.classreading;
+package com.litespring.core.type.classreading;
 
-import com.litespring.bean.core.type.ClassMetadata;
+import com.litespring.core.type.ClassMetadata;
 import com.litespring.util.ClassUtils;
 import jdk.internal.org.objectweb.asm.ClassVisitor;
 import jdk.internal.org.objectweb.asm.Opcodes;

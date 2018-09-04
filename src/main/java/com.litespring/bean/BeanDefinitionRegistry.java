@@ -1,4 +1,4 @@
-package com.litespring.bean.factory;
+package com.litespring.bean;
 
 /**
  * 有向map中注册Bean的职责

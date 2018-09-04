@@ -1,7 +1,7 @@
 package com.litespring.context.support;
 
-import com.litespring.bean.core.io.ClassPathResource;
-import com.litespring.bean.core.io.Resource;
+import com.litespring.core.io.ClassPathResource;
+import com.litespring.core.io.Resource;
 
 /**
  * 从ClassPath里加载资源

@@ -1,4 +1,4 @@
-package com.litespring.exception;
+package com.litespring.bean;
 
 /**
  * @author 张晨旭

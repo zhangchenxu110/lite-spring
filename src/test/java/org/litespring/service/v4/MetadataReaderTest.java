@@ -1,11 +1,11 @@
 package org.litespring.service.v4;
 
-import com.litespring.bean.core.annotation.AnnotationAttributes;
-import com.litespring.bean.core.io.Resource;
-import com.litespring.bean.core.io.support.PackageResourceLoader;
-import com.litespring.bean.core.type.AnnotationMetadata;
-import com.litespring.bean.core.type.MetadataReader;
-import com.litespring.bean.core.type.classreading.SimpleMetadataReader;
+import com.litespring.core.annotation.AnnotationAttributes;
+import com.litespring.core.io.Resource;
+import com.litespring.core.io.support.PackageResourceLoader;
+import com.litespring.core.type.AnnotationMetadata;
+import com.litespring.core.type.MetadataReader;
+import com.litespring.core.type.classreading.SimpleMetadataReader;
 import com.litespring.stereotype.Component;
 import org.junit.Assert;
 import org.junit.Test;

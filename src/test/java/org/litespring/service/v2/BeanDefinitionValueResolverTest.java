@@ -1,6 +1,6 @@
 package org.litespring.service.v2;
 
-import com.litespring.bean.core.io.ClassPathResource;
+import com.litespring.core.io.ClassPathResource;
 import com.litespring.bean.factory.config.RuntimeBeanReference;
 import com.litespring.bean.factory.config.TypedStringValue;
 import com.litespring.bean.factory.support.BeanDefinitionValueResolver;

@@ -1,15 +1,15 @@
 package com.litespring.bean.factory.xml;
 
-import com.litespring.bean.factory.BeanDefinition;
+import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.ConstructorArgument;
 import com.litespring.bean.PropertyValue;
-import com.litespring.bean.core.io.Resource;
+import com.litespring.core.io.Resource;
 import com.litespring.bean.factory.config.RuntimeBeanReference;
 import com.litespring.bean.factory.config.TypedStringValue;
 import com.litespring.bean.factory.support.GenericBeanDefinition;
-import com.litespring.bean.factory.BeanDefinitionRegistry;
+import com.litespring.bean.BeanDefinitionRegistry;
 import com.litespring.context.annotation.ClassPathBeanDefinitionScanner;
-import com.litespring.exception.BeanDefinitionStoreException;
+import com.litespring.bean.factory.BeanDefinitionStoreException;
 import com.litespring.util.StringUtils;
 import org.apache.commons.logging.Log;
 import org.dom4j.Document;
