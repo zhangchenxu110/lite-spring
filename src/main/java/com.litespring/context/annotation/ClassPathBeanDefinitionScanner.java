@@ -18,6 +18,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
+ * 扫描注解核心类
  * 传入包路径，解析包下的类 并将解析后的BeanDefinition通过register注册进BeanFactory
  * 持有PackageResourceLoad进行包路径到Resource的转换，持有MetadataReader，解析类的元数据
  * 将解析结果存入这个类的BeanDefinition中，为了不污染以前的GenericBeanDefinition，新加一个AnnotationBeanDefinition接口，做一个继承GenericBeanDefinition和AnnotationBeanDefinition的实现类。
@@ -60,7 +61,7 @@ public class ClassPathBeanDefinitionScanner {
     public Set<BeanDefinition> findCandidateComponents(String basePackage) {
         Set<BeanDefinition> candidates = new LinkedHashSet<BeanDefinition>();
         try {
-            //通过PackageResourceLoader 获取当前包路径下的所有类resource
+            //通过PackageResourceLoader
             Resource[] resources = this.resourceLoader.getResources(basePackage);
             for (Resource resource : resources) {
                 try {

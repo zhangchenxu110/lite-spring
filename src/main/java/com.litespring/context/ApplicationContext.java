@@ -1,5 +1,6 @@
 package com.litespring.context;
 
+import com.litespring.bean.factory.BeanFactory;
 import com.litespring.bean.factory.config.ConfigurableBeanFactory;
 
 /**
@@ -11,6 +12,6 @@ import com.litespring.bean.factory.config.ConfigurableBeanFactory;
  * @author 张晨旭
  * @DATE 2018/8/8
  */
-public interface ApplicationContext extends ConfigurableBeanFactory {
+public interface ApplicationContext extends BeanFactory {
 
 }

@@ -3,13 +3,17 @@ package com.litespring.bean.factory.support;
 import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.PropertyValue;
 import com.litespring.bean.BeanDefinitionRegistry;
+import com.litespring.bean.factory.config.BeanPostProcessor;
 import com.litespring.bean.factory.config.ConfigurableBeanFactory;
 import com.litespring.bean.factory.BeanCreationException;
+import com.litespring.bean.factory.config.DependencyDescriptor;
+import com.litespring.bean.factory.config.InstantiationAwareBeanPostProcessor;
 import com.litespring.util.ClassUtils;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,17 +29,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         implements ConfigurableBeanFactory, BeanDefinitionRegistry {
 
-
+    //所有的bd
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>(64);
     private ClassLoader beanClassLoader;
+    //
+    private List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
+
 
     public DefaultBeanFactory() {
     }
 
+    @Override
     public void registerBeanDefinition(String beanID, BeanDefinition bd) {
         this.beanDefinitionMap.put(beanID, bd);
     }
 
+    @Override
     public BeanDefinition getBeanDefinition(String beanID) {
 
         return this.beanDefinitionMap.get(beanID);
@@ -48,6 +57,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
      * @param beanID
      * @return
      */
+    @Override
     public Object getBean(String beanID) {
         BeanDefinition bd = this.getBeanDefinition(beanID);
         if (bd == null) {
@@ -75,7 +85,8 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
 
     private Object instantiateBean(BeanDefinition bd) {
-        if (bd.hasConstructorArgumentValues()) {//当有构造参数时  通过合适的构造参数实例化bean
+        //当有构造参数时  通过合适的构造参数实例化bean
+        if (bd.hasConstructorArgumentValues()) {
             ConstructorResolver resolver = new ConstructorResolver(this);
             return resolver.autowireConstructor(bd);
         } else {
@@ -99,6 +110,14 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
      * @param bean
      */
     protected void populateBean(BeanDefinition bd, Object bean) {
+
+        //调用bean生命周期中处理属性的钩子函数  进行DI
+        this.getBeanPostProcessors()
+                .stream()
+                .filter(processor -> processor instanceof InstantiationAwareBeanPostProcessor)
+                .forEach(processor -> ((InstantiationAwareBeanPostProcessor) processor)
+                        .postProcessPropertyValues(bean, bd.getID()));
+
         List<PropertyValue> pvs = bd.getPropertyValues();
         if (pvs == null || pvs.isEmpty()) {
             return;
@@ -129,11 +148,45 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         }
     }
 
+    @Override
     public void setBeanClassLoader(ClassLoader beanClassLoader) {
         this.beanClassLoader = beanClassLoader;
     }
 
+    @Override
     public ClassLoader getBeanClassLoader() {
         return (this.beanClassLoader != null ? this.beanClassLoader : ClassUtils.getDefaultClassLoader());
+    }
+
+    public void addBeanPostProcessor(BeanPostProcessor postProcessor) {
+        this.beanPostProcessors.add(postProcessor);
+    }
+
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return this.beanPostProcessors;
+    }
+
+    @Override
+    public Object resolveDependency(DependencyDescriptor dependencyDescriptor) {
+        Class<?> typeToMatch = dependencyDescriptor.getDependencyType();
+        for (BeanDefinition bd : this.beanDefinitionMap.values()) {
+            //确保BeanDefinition 有Class对象
+            resolveBeanClass(bd);
+            Class<?> beanClass = bd.getBeanClass();
+            if (typeToMatch.isAssignableFrom(beanClass)) {
+                return this.getBean(bd.getID());
+            }
+        }
+        return null;
+    }
+
+    private void resolveBeanClass(BeanDefinition bd) {
+        if (!bd.hasBeanClass()) {
+            try {
+                bd.resolveBeanClass(this.getBeanClassLoader());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException("can't load class:" + bd.getBeanClassName());
+            }
+        }
     }
 }

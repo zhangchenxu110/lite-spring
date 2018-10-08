@@ -7,13 +7,14 @@ import jdk.internal.org.objectweb.asm.Opcodes;
 import java.util.Map;
 
 /**
- * 在ClassReader回调类级别的metadata时，当回调到每一个visitAnnotation时。
+ * 在ClassReader回调类级别的metadata时，当回调到每一个visitAnnotation时
  * 如果返回一个AnnotationVisitor，那么就会访问这个注解的每个属性 回调属性Visitor方法。
  *
  * @author 张晨旭
  * @DATE 2018/9/4
  */
 public class AnnotationAttributesReadingVisitor extends AnnotationVisitor {
+    //注解类的类名
     private final String annotationType;
 
     //当一个注解的所有属性都回调完visitor后，最后会回调visitEnd方法，将这个注解的属性Map存到attributesMap中  K是注解类V是属性Map AnnotationAttributes。
@@ -34,6 +35,12 @@ public class AnnotationAttributesReadingVisitor extends AnnotationVisitor {
         this.attributesMap.put(this.annotationType, this.attributes);
     }
 
+    /**
+     * 将一个注解中的每个属性值存到AnnotationAttributes中
+     *
+     * @param attributeName
+     * @param attributeValue
+     */
     public void visit(String attributeName, Object attributeValue) {
         this.attributes.put(attributeName, attributeValue);
     }

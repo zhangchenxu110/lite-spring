@@ -212,4 +212,5 @@ public class XmlBeanDefinitionReader {
             throw new RuntimeException(elementName + " must specify a ref or value");
         }
     }
+    
 }

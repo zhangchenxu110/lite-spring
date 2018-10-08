@@ -20,17 +20,20 @@ import java.util.Set;
 public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisitor implements AnnotationMetadata {
 
     private final Set<String> annotationSet = new LinkedHashSet<String>(4);
+    //每个类注解以及他的属性
     private final Map<String, AnnotationAttributes> attributeMap = new LinkedHashMap<String, AnnotationAttributes>(4);
 
     public AnnotationMetadataReadingVisitor() {
 
     }
 
+
+
     /**
      * 在类级别的metadata做回调时，每个注解会回调这个方法。
      * 这个方法返回一个AnnotationVisitor，这个visitor会对当前这个注解的每个属性进行回调。
      *
-     * @param desc    获取当前注解的类名
+     * @param desc    获取当前注解类的类名
      * @param visible
      * @return
      */

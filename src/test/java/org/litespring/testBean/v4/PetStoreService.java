@@ -9,8 +9,7 @@ import org.litespring.testBean.v4.dao.ItemDao;
  * @author 张晨旭
  * @DATE 2018/9/3
  */
-@Component(value="petStore")
-
+@Component(value = "petStore")
 public class PetStoreService {
     @Autowired
     private AccountDao accountDao;
