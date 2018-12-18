@@ -1,7 +1,5 @@
 package com.litespring.bean.factory.config;
 
-import com.litespring.bean.factory.BeanFactory;
-
 import java.util.List;
 
 /**

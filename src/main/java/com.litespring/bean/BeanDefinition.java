@@ -1,8 +1,5 @@
 package com.litespring.bean;
 
-import com.litespring.bean.ConstructorArgument;
-import com.litespring.bean.PropertyValue;
-
 import java.util.List;
 
 /**
@@ -37,4 +34,7 @@ public interface BeanDefinition {
     boolean hasBeanClass();
 
     Class<?> resolveBeanClass(ClassLoader beanClassLoader) throws ClassNotFoundException;
+
+    //是否人工生成的BeanDefinition(AOP时 目标类切面(AspectJExpressionPoint)和切面方法（Advice）都是人工构造的BeanDefinition)
+    boolean isSynthetic();
 }

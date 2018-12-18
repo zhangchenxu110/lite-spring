@@ -1,12 +1,16 @@
 package com.litespring.context.support;
 
+import com.litespring.aop.aspectj.AspectJAutoProxyCreator;
+import com.litespring.bean.factory.NoSuchBeanDefinitionException;
 import com.litespring.bean.factory.annotation.AutowiredAnnotationProcessor;
 import com.litespring.bean.factory.config.ConfigurableBeanFactory;
-import com.litespring.context.ApplicationContext;
-import com.litespring.core.io.Resource;
 import com.litespring.bean.factory.support.DefaultBeanFactory;
 import com.litespring.bean.factory.xml.XmlBeanDefinitionReader;
+import com.litespring.context.ApplicationContext;
+import com.litespring.core.io.Resource;
 import com.litespring.util.ClassUtils;
+
+import java.util.List;
 
 /**
  * 实现applicationContext 构造时持有Resource和DefaultBeanFactory和XmlReader
@@ -31,13 +35,21 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         registerBeanPostProcessors(factory);
     }
 
+    protected void registerBeanPostProcessors(ConfigurableBeanFactory beanFactory) {
+            AutowiredAnnotationProcessor postProcessor1 = new AutowiredAnnotationProcessor();
+            postProcessor1.setBeanFactory(beanFactory);
+            beanFactory.addBeanPostProcessor(postProcessor1);
+
+            AspectJAutoProxyCreator postProcessor2 = new AspectJAutoProxyCreator();
+            postProcessor2.setBeanFactory(beanFactory);
+            beanFactory.addBeanPostProcessor(postProcessor2);
+    }
+
     @Override
     public Object getBean(String beanID) {
 
         return factory.getBean(beanID);
     }
-
-    protected abstract Resource getResourceByPath(String path);
 
     public void setBeanClassLoader(ClassLoader beanClassLoader) {
         this.beanClassLoader = beanClassLoader;
@@ -47,10 +59,15 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
         return (this.beanClassLoader != null ? this.beanClassLoader : ClassUtils.getDefaultClassLoader());
     }
 
-    protected void registerBeanPostProcessors(ConfigurableBeanFactory beanFactory) {
-        AutowiredAnnotationProcessor postProcessor = new AutowiredAnnotationProcessor();
-        postProcessor.setBeanFactory(beanFactory);
-        beanFactory.addBeanPostProcessor(postProcessor);
+    protected abstract Resource getResourceByPath(String path);
+
+
+    public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+        return this.factory.getType(name);
     }
 
+    @Override
+    public List<Object> getBeansByType(Class<?> type) {
+        return factory.getBeansByType(type);
+    }
 }

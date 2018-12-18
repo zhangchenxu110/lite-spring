@@ -1,5 +1,7 @@
 package com.litespring.core.annotation;
 
+import com.litespring.bean.factory.annotation.Autowired;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 

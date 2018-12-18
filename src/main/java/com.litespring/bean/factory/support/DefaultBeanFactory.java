@@ -1,11 +1,13 @@
 package com.litespring.bean.factory.support;
 
 import com.litespring.bean.BeanDefinition;
-import com.litespring.bean.PropertyValue;
 import com.litespring.bean.BeanDefinitionRegistry;
-import com.litespring.bean.factory.config.BeanPostProcessor;
-import com.litespring.bean.factory.config.ConfigurableBeanFactory;
+import com.litespring.bean.BeansException;
+import com.litespring.bean.PropertyValue;
 import com.litespring.bean.factory.BeanCreationException;
+import com.litespring.bean.factory.BeanFactoryAware;
+import com.litespring.bean.factory.NoSuchBeanDefinitionException;
+import com.litespring.bean.factory.config.BeanPostProcessor;
 import com.litespring.bean.factory.config.DependencyDescriptor;
 import com.litespring.bean.factory.config.InstantiationAwareBeanPostProcessor;
 import com.litespring.util.ClassUtils;
@@ -26,8 +28,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 张晨旭
  * @DATE 2018/7/9
  */
-public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
-        implements ConfigurableBeanFactory, BeanDefinitionRegistry {
+public class DefaultBeanFactory extends AbstractBeanFactory
+        implements BeanDefinitionRegistry {
 
     //所有的bd
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>(64);
@@ -48,6 +50,31 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     public BeanDefinition getBeanDefinition(String beanID) {
 
         return this.beanDefinitionMap.get(beanID);
+    }
+
+    /**
+     * 传入类别  获取bean实例
+     *
+     * @param type
+     * @return
+     */
+    public List<Object> getBeansByType(Class<?> type) {
+        List<Object> result = new ArrayList<Object>();
+        List<String> beanIDs = this.getBeanIDsByType(type);
+        for (String beanID : beanIDs) {
+            result.add(this.getBean(beanID));
+        }
+        return result;
+    }
+
+    private List<String> getBeanIDsByType(Class<?> type) {
+        List<String> result = new ArrayList<String>();
+        for (String beanName : this.beanDefinitionMap.keySet()) {
+            if (type.isAssignableFrom(this.getType(beanName))) {
+                result.add(beanName);
+            }
+        }
+        return result;
     }
 
     /**
@@ -75,13 +102,50 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         return createBean(bd);
     }
 
-    private Object createBean(BeanDefinition bd) {
+    protected Object createBean(BeanDefinition bd) {
         //创建实例
         Object bean = instantiateBean(bd);
         //设置属性
         populateBean(bd, bean);
-        return bean;
 
+        //初始化bean  产生代理bean
+        bean = initializeBean(bd, bean);
+
+        return bean;
+    }
+
+    protected Object initializeBean(BeanDefinition bd, Object bean) {
+        invokeAwareMethods(bean);
+        //Todo，调用Bean的init方法，暂不实现
+        //当非人造bean  就要产生代理bean
+        if (!bd.isSynthetic()) {
+            return applyBeanPostProcessorsAfterInitialization(bean, bd.getID());
+        }
+        return bean;
+    }
+
+    public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName)
+            throws BeansException {
+        Object result = existingBean;
+        //调用所有钩子函数
+        for (BeanPostProcessor beanProcessor : getBeanPostProcessors()) {
+            result = beanProcessor.afterInitialization(result, beanName);
+            if (result == null) {
+                return null;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 当这个bean是调用的方法的1 3个参数  MethodLocatingFactory和AspectInstanceFactory  设置BeanFactory
+     *
+     * @param bean
+     */
+    private void invokeAwareMethods(final Object bean) {
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware) bean).setBeanFactory(this);
+        }
     }
 
     private Object instantiateBean(BeanDefinition bd) {
@@ -115,8 +179,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
         this.getBeanPostProcessors()
                 .stream()
                 .filter(processor -> processor instanceof InstantiationAwareBeanPostProcessor)
-                .forEach(processor -> ((InstantiationAwareBeanPostProcessor) processor)
-                        .postProcessPropertyValues(bean, bd.getID()));
+                .forEach(processor -> ((InstantiationAwareBeanPostProcessor) processor).postProcessPropertyValues(bean, bd.getID()));
 
         List<PropertyValue> pvs = bd.getPropertyValues();
         if (pvs == null || pvs.isEmpty()) {
@@ -188,5 +251,14 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
                 throw new RuntimeException("can't load class:" + bd.getBeanClassName());
             }
         }
+    }
+
+    public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+        BeanDefinition bd = this.getBeanDefinition(name);
+        if (bd == null) {
+            throw new NoSuchBeanDefinitionException(name);
+        }
+        resolveBeanClass(bd);
+        return bd.getBeanClass();
     }
 }

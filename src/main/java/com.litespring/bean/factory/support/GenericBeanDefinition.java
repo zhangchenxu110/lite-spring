@@ -24,7 +24,15 @@ public class GenericBeanDefinition implements BeanDefinition {
     private List<PropertyValue> propertyValues = new ArrayList<PropertyValue>();
     private ConstructorArgument constructorArgument = new ConstructorArgument();
 
+    //表明这个Bean定义是不是我们litespring自己合成的。
+    private boolean isSynthetic = false;
+
     public GenericBeanDefinition() {
+    }
+
+    public GenericBeanDefinition(Class<?> clz) {
+        this.beanClass = clz;
+        this.beanClassName = clz.getName();
     }
 
     public GenericBeanDefinition(String id, String beanClassName) {
@@ -103,5 +111,12 @@ public class GenericBeanDefinition implements BeanDefinition {
 
     public void setBeanClass(Class<?> beanClass) {
         this.beanClass = beanClass;
+    }
+
+    public boolean isSynthetic() {
+        return isSynthetic;
+    }
+    public void setSynthetic(boolean isSynthetic) {
+        this.isSynthetic = isSynthetic;
     }
 }

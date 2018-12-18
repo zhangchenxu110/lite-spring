@@ -1,21 +1,22 @@
 package com.litespring.bean.factory.xml;
 
+import com.litespring.aop.config.ConfigBeanDefinitionParser;
 import com.litespring.bean.BeanDefinition;
+import com.litespring.bean.BeanDefinitionRegistry;
 import com.litespring.bean.ConstructorArgument;
 import com.litespring.bean.PropertyValue;
-import com.litespring.core.io.Resource;
+import com.litespring.bean.factory.BeanDefinitionStoreException;
 import com.litespring.bean.factory.config.RuntimeBeanReference;
 import com.litespring.bean.factory.config.TypedStringValue;
 import com.litespring.bean.factory.support.GenericBeanDefinition;
-import com.litespring.bean.BeanDefinitionRegistry;
 import com.litespring.context.annotation.ClassPathBeanDefinitionScanner;
-import com.litespring.bean.factory.BeanDefinitionStoreException;
+import com.litespring.core.io.Resource;
 import com.litespring.util.StringUtils;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,6 +53,8 @@ public class XmlBeanDefinitionReader {
 
     private static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
 
+    public static final String AOP_NAMESPACE_URI = "http://www.springframework.org/schema/aop";
+
     BeanDefinitionRegistry registry;
 
     protected final Log logger = LogFactory.getLog(getClass());
@@ -79,8 +82,10 @@ public class XmlBeanDefinitionReader {
                 String namespaceUri = ele.getNamespaceURI();
                 if (this.isDefaultNamespace(namespaceUri)) {//普通的bean
                     parseDefaultElement(ele);
-                } else if (this.isContextNamespace(namespaceUri)) {//例如<context:component-scan>
-                    parseComponentElement(ele);
+                } else if(this.isContextNamespace(namespaceUri)){
+                    parseComponentElement(ele); //例如<context:component-scan>
+                }  else if(this.isAOPNamespace(namespaceUri)){
+                    parseAOPElement(ele);  //例如 <aop:config>
                 }
             }
         } catch (Exception e) {
@@ -103,6 +108,18 @@ public class XmlBeanDefinitionReader {
 
     public boolean isContextNamespace(String namespaceUri) {
         return (!StringUtils.hasLength(namespaceUri) || CONTEXT_NAMESPACE_URI.equals(namespaceUri));
+    }
+    public boolean isAOPNamespace(String namespaceUri){
+        return (!StringUtils.hasLength(namespaceUri) || AOP_NAMESPACE_URI.equals(namespaceUri));
+    }
+
+    /**
+     * 解析AOP配置
+     * @param ele
+     */
+    private void parseAOPElement(Element ele){
+        ConfigBeanDefinitionParser parser = new ConfigBeanDefinitionParser();
+        parser.parse(ele, this.registry);
     }
 
 

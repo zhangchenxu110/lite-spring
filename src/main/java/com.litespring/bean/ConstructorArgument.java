@@ -24,6 +24,9 @@ public class ConstructorArgument {
     public void addArgumentValue(ValueHolder valueHolder) {
         this.argumentValues.add(valueHolder);
     }
+    public void addArgumentValue(Object value) {
+        this.argumentValues.add(new ValueHolder(value));
+    }
 
     //get返回的参数List是不可修改的
     public List<ValueHolder> getArgumentValues() {

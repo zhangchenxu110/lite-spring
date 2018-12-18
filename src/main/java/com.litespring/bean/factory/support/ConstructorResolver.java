@@ -1,14 +1,13 @@
 package com.litespring.bean.factory.support;
 
-import java.lang.reflect.Constructor;
-import java.util.List;
-
 import com.litespring.bean.BeanDefinition;
 import com.litespring.bean.ConstructorArgument;
-import com.litespring.bean.factory.config.ConfigurableBeanFactory;
 import com.litespring.bean.factory.BeanCreationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.lang.reflect.Constructor;
+import java.util.List;
 
 /**
  * @author 张晨旭
@@ -18,9 +17,9 @@ public class ConstructorResolver {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
-    private final ConfigurableBeanFactory beanFactory;
+    private final AbstractBeanFactory beanFactory;
 
-    public ConstructorResolver(ConfigurableBeanFactory beanFactory) {
+    public ConstructorResolver(AbstractBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
     }
 
@@ -49,8 +48,8 @@ public class ConstructorResolver {
         /**
          * 匹配所有的构造方法  先匹配个数，再匹配类型
          */
-        for (int i = 0; i < candidates.length; i++) {
-            Class<?>[] parameterTypes = candidates[i].getParameterTypes();
+        for (Constructor<?> candidate : candidates) {
+            Class<?>[] parameterTypes = candidate.getParameterTypes();
             //匹配个数
             if (parameterTypes.length != cargs.getArgumentCount()) {
                 continue;
@@ -64,7 +63,7 @@ public class ConstructorResolver {
                     typeConverter);
 
             if (result) {
-                constructorToUse = candidates[i];
+                constructorToUse = candidate;
                 break;
             }
 
